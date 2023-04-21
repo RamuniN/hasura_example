@@ -28,7 +28,7 @@ Once the hasura is up & running, you can connect to additional databases.
 Click on `data` tab -> `Manage` database -> `Connect Database`. Enter the database uri string or env variable to connect.
 
 Note: To skip the manual steps of connecting to additional db's (like application_store & account_store), there is a pre-built metadata json in the dir `metadata` that you can directly import from the settings.
-![Alt text](metadata\metadata_import.PNG?raw=true "Title")
+![Alt text](./metadata/metadata_import.PNG?raw=true "Title")
 
 ## Running Graphql queries in Python
 
