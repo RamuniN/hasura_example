@@ -1,0 +1,249 @@
+{
+  "resource_version": 19,
+  "metadata": {
+    "version": 3,
+    "sources": [
+      {
+        "name": "account_store",
+        "kind": "postgres",
+        "tables": [
+          {
+            "table": {
+              "name": "account",
+              "schema": "public"
+            },
+            "array_relationships": [
+              {
+                "name": "roles",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "account_id",
+                    "table": {
+                      "name": "role",
+                      "schema": "public"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "alembic_version",
+              "schema": "public"
+            },
+            "configuration": {
+              "column_config": {},
+              "custom_column_names": {},
+              "custom_name": "account_alembic_version",
+              "custom_root_fields": {}
+            }
+          },
+          {
+            "table": {
+              "name": "role",
+              "schema": "public"
+            },
+            "object_relationships": [
+              {
+                "name": "account",
+                "using": {
+                  "foreign_key_constraint_on": "account_id"
+                }
+              }
+            ]
+          }
+        ],
+        "configuration": {
+          "connection_info": {
+            "database_url": {
+              "from_env": "HASURA_ACCOUNT_STORE_DATABASE_URL"
+            },
+            "isolation_level": "read-committed",
+            "use_prepared_statements": false
+          }
+        },
+        "customization": {
+          "naming_convention": "hasura-default"
+        }
+      },
+      {
+        "name": "application_store",
+        "kind": "postgres",
+        "tables": [
+          {
+            "table": {
+              "name": "alembic_version",
+              "schema": "public"
+            },
+            "configuration": {
+              "column_config": {},
+              "custom_column_names": {},
+              "custom_name": "application_alembic_version",
+              "custom_root_fields": {}
+            }
+          },
+          {
+            "table": {
+              "name": "applications",
+              "schema": "public"
+            },
+            "array_relationships": [
+              {
+                "name": "forms",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "application_id",
+                    "table": {
+                      "name": "forms",
+                      "schema": "public"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "forms",
+              "schema": "public"
+            },
+            "object_relationships": [
+              {
+                "name": "application",
+                "using": {
+                  "foreign_key_constraint_on": "application_id"
+                }
+              }
+            ]
+          }
+        ],
+        "configuration": {
+          "connection_info": {
+            "database_url": {
+              "from_env": "HASURA_APPLICATION_STORE_DATABASE_URL"
+            },
+            "isolation_level": "read-committed",
+            "use_prepared_statements": false
+          }
+        },
+        "customization": {
+          "naming_convention": "hasura-default"
+        }
+      },
+      {
+        "name": "assessment_store",
+        "kind": "postgres",
+        "tables": [
+          {
+            "table": {
+              "name": "alembic_version",
+              "schema": "public"
+            }
+          },
+          {
+            "table": {
+              "name": "assessment_records",
+              "schema": "public"
+            },
+            "array_relationships": [
+              {
+                "name": "comments",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "application_id",
+                    "table": {
+                      "name": "comments",
+                      "schema": "public"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "flags",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "application_id",
+                    "table": {
+                      "name": "flags",
+                      "schema": "public"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "scores",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "application_id",
+                    "table": {
+                      "name": "scores",
+                      "schema": "public"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "comments",
+              "schema": "public"
+            },
+            "object_relationships": [
+              {
+                "name": "assessment_record",
+                "using": {
+                  "foreign_key_constraint_on": "application_id"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "flags",
+              "schema": "public"
+            },
+            "object_relationships": [
+              {
+                "name": "assessment_record",
+                "using": {
+                  "foreign_key_constraint_on": "application_id"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "scores",
+              "schema": "public"
+            },
+            "object_relationships": [
+              {
+                "name": "assessment_record",
+                "using": {
+                  "foreign_key_constraint_on": "application_id"
+                }
+              }
+            ]
+          }
+        ],
+        "configuration": {
+          "connection_info": {
+            "database_url": {
+              "from_env": "HASURA_GRAPHQL_DATABASE_URL"
+            },
+            "isolation_level": "read-committed",
+            "pool_settings": {
+              "connection_lifetime": 600,
+              "idle_timeout": 180,
+              "max_connections": 50,
+              "retries": 1
+            },
+            "use_prepared_statements": true
+          }
+        }
+      }
+    ]
+  }
+}

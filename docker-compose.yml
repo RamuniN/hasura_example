@@ -1,0 +1,39 @@
+version: "3.1"
+
+services:
+  hasura_metadata_db:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hasura-metadata
+    volumes:
+      - hasura_db:/var/lib/postgresql/data
+
+  hasura:
+    image: hasura/graphql-engine:v2.15.2
+    ports:
+      - "8888:8080"
+    depends_on:
+      - hasura_metadata_db
+    environment:
+      ## postgres database to store Hasura metadata
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@hasura_metadata_db:5432/hasura-metadata
+      HASURA_GRAPHQL_DATABASE_URL: postgresql://postgres:password@host.docker.internal:5432/assessment_store
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      ## uncomment next line to set an admin secret
+      # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ENABLE_TELEMETRY: "false"
+      # serve web ui locally without online CDN
+      HASURA_GRAPHQL_CONSOLE_ASSETS_DIR: /srv/console-assets
+      HASURA_GRAPHQL_ENABLE_REMOTE_SCHEMA_PERMISSIONS: "false"
+      HASURA_APPLICATION_STORE_DATABASE_URL: postgresql://postgres:password@host.docker.internal:5432/application_store
+      HASURA_ACCOUNT_STORE_DATABASE_URL: postgresql://postgres:password@host.docker.internal:5432/account_store
+      HASURA_ASSESSMENT_STORE_DATABASE_URL: postgresql://postgres:password@host.docker.internal:5432/assessment_store
+
+volumes:
+  hasura_metadata_db:

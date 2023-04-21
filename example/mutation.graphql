@@ -1,0 +1,13 @@
+mutation deleteApplicationByAccount($account_id: String) {
+  delete_forms(where: {application: {account_id: {_eq: $account_id}}}) {
+    returning {
+      application_id
+    }
+  }
+  delete_applications(where: {account_id: {_eq: $account_id}}) {
+    returning {
+      project_name
+      id
+    }
+  }
+}

@@ -1,0 +1,39 @@
+query getAccounts {
+  account {
+    id
+    email
+  }
+}
+
+query getApplicationByAccountID($account_id: String) {
+  applications(where: {account_id: {_eq: $account_id}}) {
+    project_name
+    id
+    round_id
+    fund_id
+  }
+}
+
+query getApplicationByStatus {
+  applications(where: {status: {_eq: "IN_PROGRESS"}}) {
+    project_name
+    id
+    round_id
+    fund_id
+  }
+}
+
+
+query getAssessmentRecords {
+  assessment_records {
+    project_name
+    round_id
+    fund_id
+  }
+  assessment_records_aggregate(where: {round_id: {_eq: "c603d114-5364-4474-a0c4-c41cbf4d3bbd"}}) {
+    aggregate {
+      count
+    }
+  }
+}
+
