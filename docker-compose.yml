@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: hasura-metadata
     volumes:
-      - hasura_db:/var/lib/postgresql/data
+      - hasura_metadata_db:/var/lib/postgresql/data
 
   hasura:
     image: hasura/graphql-engine:v2.15.2
